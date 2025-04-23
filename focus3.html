@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Focus Buddy - Améliorez votre concentration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Loading Screen -->
+    <div class="loading-screen">
+      <div class="loading-bg"></div>
+      <div class="loading-content">
+        <div class="mb-8">
+          <svg
+            width="80"
+            height="80"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z"
+              fill="url(#gradient)"
+            />
+            <path
+              d="M12 6C8.69 6 6 8.69 6 12C6 15.31 8.69 18 12 18C15.31 18 18 15.31 18 12C18 8.69 15.31 6 12 6ZM11 12V8H13V12H17V14H13V16H11V14H7V12H11Z"
+              fill="url(#gradient)"
+            />
+            <defs>
+              <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#4F46E5" />
+                <stop offset="100%" stop-color="#10B981" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <h1 class="text-4xl font-bold mb-4">Focus Buddy</h1>
+        <p class="loading-message">Chargement des ressources...</p>
+        <div class="progress-percentage">0%</div>
+        <div class="w-full bg-gray-700 rounded-full h-2.5 mb-4">
+          <div
+            class="bg-gradient-to-r from-indigo-600 to-emerald-500 h-2.5 rounded-full"
+            style="width: 0%"
+          ></div>
+        </div>
+        <p class="text-sm text-gray-400 mt-8">Made by Pona Ekolo</p>
+      </div>
+    </div>
+
+    <!-- Main App -->
+    <div class="container mx-auto px-4 py-8 app-content" style="display: none">
+      <header class="flex justify-between items-center mb-12">
+        <div class="flex items-center">
+          <svg
+            width="32"
+            height="32"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            class="mr-3"
+          >
+            <path
+              d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z"
+              fill="#4F46E5"
+            />
+            <path
+              d="M12 6C8.69 6 6 8.69 6 12C6 15.31 8.69 18 12 18C15.31 18 18 15.31 18 12C18 8.69 15.31 6 12 6ZM11 12V8H13V12H17V14H13V16H11V14H7V12H11Z"
+              fill="#10B981"
+            />
+          </svg>
+          <h1 class="text-2xl font-bold">Focus Buddy</h1>
+        </div>
+        <div>
+          <button
+            id="stats-btn"
+            class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded-lg transition-all"
+          >
+            <i class="fas fa-chart-bar mr-2"></i>Statistiques
+          </button>
+        </div>
+      </header>
+
+      <main>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+          <div class="bg-white shadow-ui rounded-xl p-6">
+            <h2 class="text-xl font-semibold mb-6">
+              Nouvelle Session de Concentration
+            </h2>
+
+            <div class="mb-6">
+              <label
+                for="task-name"
+                class="block text-sm font-medium text-gray-700 mb-2"
+                >Tâche à accomplir</label
+              >
+              <input
+                type="text"
+                id="task-name"
+                placeholder="Ex: Étudier les mathématiques"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+              />
+            </div>
+
+            <div class="grid grid-cols-3 gap-4 mb-6">
+              <div>
+                <label
+                  for="hours"
+                  class="block text-sm font-medium text-gray-700 mb-2"
+                  >Heures</label
+                >
+                <select
+                  id="hours"
+                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+                >
+                  <option value="0">0</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                </select>
+              </div>
+              <div>
+                <label
+                  for="minutes"
+                  class="block text-sm font-medium text-gray-700 mb-2"
+                  >Minutes</label
+                >
+                <select
+                  id="minutes"
+                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+                >
+                  <option value="0">0</option>
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option value="15">15</option>
+                  <option value="20">20</option>
+                  <option value="25">25</option>
+                  <option value="30">30</option>
+                  <option value="35">35</option>
+                  <option value="40">40</option>
+                  <option value="45">45</option>
+                  <option value="50">50</option>
+                  <option value="55">55</option>
+                </select>
+              </div>
+              <div>
+                <label
+                  for="seconds"
+                  class="block text-sm font-medium text-gray-700 mb-2"
+                  >Secondes</label
+                >
+                <select
+                  id="seconds"
+                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+                >
+                  <option value="0">0</option>
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option value="15">15</option>
+                  <option value="20">20</option>
+                  <option value="25">25</option>
+                  <option value="30">30</option>
+                  <option value="35">35</option>
+                  <option value="40">40</option>
+                  <option value="45">45</option>
+                  <option value="50">50</option>
+                  <option value="55">55</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="mb-6">
+              <label class="block text-sm font-medium text-gray-700 mb-2"
+                >Musique de fond</label
+              >
+              <div class="flex items-center space-x-4">
+                <button
+                  id="music-toggle"
+                  class="bg-indigo-100 text-indigo-800 px-4 py-2 rounded-lg font-medium transition-all"
+                >
+                  Activé
+                </button>
+                <div class="flex-1">
+                  <select
+                    id="music-playlist"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+                  >
+                    <option value="lofi">Lofi Chill</option>
+                    <option value="classical">Classique</option>
+                    <option value="nature">Sons de la nature</option>
+                    <option value="white-noise">Bruit blanc</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex justify-center">
+              <button
+                id="start-focus"
+                class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-all transform hover:scale-105 floating-btn"
+              >
+                <i class="fas fa-play mr-2"></i>Commencer à se concentrer
+              </button>
+            </div>
+          </div>
+
+          <div class="bg-white shadow-ui rounded-xl p-6">
+            <h2 class="text-xl font-semibold mb-6">Vos Sessions Récentes</h2>
+            <div id="recent-sessions" class="space-y-4">
+              <div class="text-center py-10">
+                <svg
+                  class="mx-auto h-12 w-12 text-gray-400"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                  ></path>
+                </svg>
+                <h3 class="mt-2 text-sm font-medium text-gray-900">
+                  Aucune session récente
+                </h3>
+                <p class="mt-1 text-sm text-gray-500">
+                  Commencez une nouvelle session pour voir vos statistiques ici.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white shadow-ui rounded-xl p-6 mb-12">
+          <h2 class="text-xl font-semibold mb-6">
+            Conseils pour Améliorer votre Concentration
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-indigo-50 p-5 rounded-lg">
+              <div class="flex items-center mb-3">
+                <div class="bg-indigo-100 p-2 rounded-full mr-3">
+                  <svg
+                    class="w-6 h-6 text-indigo-600"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                    ></path>
+                  </svg>
+                </div>
+                <h3 class="font-medium text-indigo-800">Technique Pomodoro</h3>
+              </div>
+              <p class="text-sm text-gray-700">
+                Travaillez par intervalles de 25 minutes avec des pauses de 5
+                minutes. Après 4 cycles, prenez une pause plus longue.
+              </p>
+            </div>
+            <div class="bg-emerald-50 p-5 rounded-lg">
+              <div class="flex items-center mb-3">
+                <div class="bg-emerald-100 p-2 rounded-full mr-3">
+                  <svg
+                    class="w-6 h-6 text-emerald-600"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M13 10V3L4 14h7v7l9-11h-7z"
+                    ></path>
+                  </svg>
+                </div>
+                <h3 class="font-medium text-emerald-800">
+                  Éliminez les distractions
+                </h3>
+              </div>
+              <p class="text-sm text-gray-700">
+                Désactivez les notifications, rangez votre téléphone et utilisez
+                des applications comme Focus Buddy pour rester concentré.
+              </p>
+            </div>
+            <div class="bg-amber-50 p-5 rounded-lg">
+              <div class="flex items-center mb-3">
+                <div class="bg-amber-100 p-2 rounded-full mr-3">
+                  <svg
+                    class="w-6 h-6 text-amber-600"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+                    ></path>
+                  </svg>
+                </div>
+                <h3 class="font-medium text-amber-800">
+                  Environnement optimal
+                </h3>
+              </div>
+              <p class="text-sm text-gray-700">
+                Créez un espace de travail propre, bien éclairé et confortable.
+                La musique de fond peut améliorer votre concentration.
+              </p>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Focus Mode -->
+    <div class="focus-mode">
+      <div class="focus-timer" id="focus-timer">00:00:00</div>
+      <div class="focus-task" id="focus-task">Tâche en cours</div>
+
+      <div class="flex space-x-4 mb-8">
+        <button
+          id="pause-focus"
+          class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-6 rounded-lg transition-all"
+        >
+          <i class="fas fa-pause mr-2"></i>Pause
+        </button>
+        <button
+          id="stop-focus"
+          class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded-lg transition-all"
+        >
+          <i class="fas fa-stop mr-2"></i>Arrêter
+        </button>
+      </div>
+
+      <div class="music-player" id="music-player">
+        <div class="song-info">
+          <img
+            src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
+            alt="Album Cover"
+            class="song-cover"
+          />
+          <div class="song-details">
+            <div class="song-title">Titre de la musique</div>
+            <div class="song-artist">Artiste</div>
+          </div>
+        </div>
+
+        <div class="player-controls">
+          <button class="player-btn" id="prev-btn">
+            <i class="fas fa-step-backward"></i>
+          </button>
+          <button class="player-btn" id="shuffle-btn">
+            <i class="fas fa-random"></i>
+          </button>
+          <button class="player-btn play-pause" id="play-pause-btn">
+            <i class="fas fa-play" id="play-pause-icon"></i>
+          </button>
+          <button class="player-btn" id="repeat-btn">
+            <i class="fas fa-redo"></i>
+          </button>
+          <button class="player-btn" id="next-btn">
+            <i class="fas fa-step-forward"></i>
+          </button>
+        </div>
+
+        <div class="progress-container" id="progress-container">
+          <div class="progress-bar" id="progress-bar"></div>
+        </div>
+
+        <div class="progress-time">
+          <span id="current-time">00:00</span>
+          <span id="duration">00:00</span>
+        </div>
+
+        <div class="volume-container">
+          <i class="fas fa-volume-up"></i>
+          <input
+            type="range"
+            class="volume-slider"
+            id="volume-slider"
+            min="0"
+            max="1"
+            step="0.01"
+            value="0.7"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- Focus Overlay (blocks other interactions) -->
+    <div class="focus-overlay">
+      <div>
+        <div class="text-4xl font-bold mb-4">Restez concentré !</div>
+        <p class="text-xl">
+          Vous êtes en mode concentration. Revenez à votre tâche.
+        </p>
+      </div>
+    </div>
+
+    <!-- Stats Modal -->
+    <div
+      id="stats-modal"
+      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+      style="display: none"
+    >
+      <div
+        class="bg-white rounded-xl shadow-xl w-full max-w-4xl max-h-screen overflow-y-auto p-6"
+      >
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-2xl font-bold">Statistiques de Concentration</h2>
+          <button id="close-stats" class="text-gray-500 hover:text-gray-700">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div class="stats-card shadow-ui">
+            <div class="stats-value text-indigo-600" id="total-sessions">0</div>
+            <div class="stats-label">Sessions complétées</div>
+          </div>
+          <div class="stats-card shadow-ui">
+            <div class="stats-value text-emerald-600" id="total-time">
+              0h 0m
+            </div>
+            <div class="stats-label">Temps total de concentration</div>
+          </div>
+          <div class="stats-card shadow-ui">
+            <div class="stats-value text-amber-600" id="success-rate">0%</div>
+            <div class="stats-label">Taux de réussite</div>
+          </div>
+        </div>
+
+        <h3 class="text-xl font-semibold mb-4">Dernière Session</h3>
+        <div id="last-session-stats" class="mb-8">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div class="stats-card shadow-ui">
+              <div class="stats-value" id="last-task">-</div>
+              <div class="stats-label">Tâche</div>
+            </div>
+            <div class="stats-card shadow-ui">
+              <div class="stats-value" id="last-duration">-</div>
+              <div class="stats-label">Durée</div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <div class="stats-card shadow-ui">
+              <div class="stats-value" id="last-target">-</div>
+              <div class="stats-label">Objectif</div>
+            </div>
+            <div class="stats-card shadow-ui">
+              <div class="stats-value" id="last-achieved">-</div>
+              <div class="stats-label">Réalisé</div>
+            </div>
+            <div class="stats-card shadow-ui">
+              <div class="stats-value" id="last-completion">-</div>
+              <div class="stats-label">Taux de complétion</div>
+            </div>
+          </div>
+
+          <div class="mb-6">
+            <div class="stats-card shadow-ui p-4" id="last-feedback">
+              <div class="font-medium mb-2">Feedback:</div>
+              <p>Commencez une session pour voir vos statistiques.</p>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="text-xl font-semibold mb-4">Historique des Sessions</h3>
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th
+                  scope="col"
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Date
+                </th>
+                <th
+                  scope="col"
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Tâche
+                </th>
+                <th
+                  scope="col"
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Objectif
+                </th>
+                <th
+                  scope="col"
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Réalisé
+                </th>
+                <th
+                  scope="col"
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Statut
+                </th>
+              </tr>
+            </thead>
+            <tbody
+              class="bg-white divide-y divide-gray-200"
+              id="sessions-history"
+            >
+              <tr>
+                <td
+                  colspan="5"
+                  class="px-6 py-4 text-center text-sm text-gray-500"
+                >
+                  Aucune donnée disponible
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <script src="scripts.js"></script>
+  </body>
+</html>
